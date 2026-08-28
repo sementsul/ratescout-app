@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: '17' }
       - uses: subosito/flutter-action@v2
-        with: { channel: stable }
+        with: { channel: stable, flutter-version: '3.24.5' }   # AGP 8.1 — совместим с flutter_inappwebview
       - name: Scaffold platforms
         run: flutter create . --platforms=android --project-name ratescout_app --org ru.ratescout
       - name: Ensure INTERNET permission
@@ -40,7 +40,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
-        with: { channel: stable }
+        with: { channel: stable, flutter-version: '3.24.5' }
       - run: flutter config --enable-windows-desktop
       - run: flutter create . --platforms=windows --project-name ratescout_app --org ru.ratescout
       - run: flutter pub get
@@ -56,7 +56,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
-        with: { channel: stable }
+        with: { channel: stable, flutter-version: '3.24.5' }
       - run: flutter config --enable-macos-desktop
       - run: flutter create . --platforms=macos --project-name ratescout_app --org ru.ratescout
       - name: Ensure macOS network entitlement (иначе HTTP не работает в sandbox)
