@@ -34,7 +34,8 @@ proguard/AGP у flutter_inappwebview); Windows — latest stable (VS2022); macOS
 ## UC-5. Лендинг на app.ratescout.ru — 🟡
 **Предусловие:** DNS `app` → `sementsul.github.io` (владелец).
 **Ожидаемо:** `pages.yml` деплоит `site/` (стиль сайта) в Pages; `site/CNAME`=app.ratescout.ru; кнопки «Скачать»
-→ `releases/latest/download/...`. **Статус:** 🟡 Pages деплоится; ждёт DNS.
+→ `releases/latest/download/...`. **Статус:** ✅ DNS настроен, `https://app.ratescout.ru` отдаёт 200, SSL approved,
+HTTPS enforced. (Ссылки «Скачать» наполнятся после релиза v1.1.0.)
 
 ## UC-6. Защита репозитория — ✅
 **Ожидаемо:** `main` защищена: force-push/удаление запрещены, `enforce_admins: true`. **Статус:** ✅ применено (API).

@@ -26,7 +26,11 @@ site/CNAME             app.ratescout.ru
 - **Windows:** пин 3.24.5 ломал сборку («ищет Visual Studio 2019») → windows-джоба на **latest stable** (видит VS2022).
 - **macOS:** flutter_inappwebview_macos требует deployment target ≥10.14 → патчим `macos/Podfile` до **11.0**;
   + network.client entitlement (иначе HTTP в sandbox не работает). ⚠️ грабли: шаг-патч падал на `mv` из-за приоритета `||/&&` — упрощён.
+- **Windows:** новый MSVC на раннере даёт hard-error **STL1011** на `<experimental/coroutine>` в flutter_inappwebview_windows →
+  в CI патчим `windows/CMakeLists.txt`: `add_compile_definitions(_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS)` после `project()`
+  (пишем через `[IO.File]::WriteAllText`, идемпотентно; `Set-Content -NoNewline` падал в pwsh).
 - Общий урок: разным платформам — разные версии Flutter; правки workflow проверять по jobs>0 и логам.
+- CI: `paths-ignore: docs/**, site/**, **.md` — доки/лендинг не пересобирают приложение.
 
 ## Состояние
 - ✅ Репо + защита main; лендинг app.ratescout.ru (Pages) — ждёт DNS `app`→sementsul.github.io.
