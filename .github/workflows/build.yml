@@ -40,7 +40,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
-        with: { channel: stable, flutter-version: '3.24.5' }
+        with: { channel: stable }   # latest — видит Visual Studio 2022 на раннере
       - run: flutter config --enable-windows-desktop
       - run: flutter create . --platforms=windows --project-name ratescout_app --org ru.ratescout
       - run: flutter pub get
@@ -56,9 +56,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
-        with: { channel: stable, flutter-version: '3.24.5' }
+        with: { channel: stable }
       - run: flutter config --enable-macos-desktop
       - run: flutter create . --platforms=macos --project-name ratescout_app --org ru.ratescout
+      - name: Bump macOS deployment target (нужно flutter_inappwebview_macos)
+        run: |
+          sed -i '' -E "s/^# *platform :osx.*/platform :osx, '11.0'/; s/^platform :osx.*/platform :osx, '11.0'/" macos/Podfile
+          grep -n "platform :osx" macos/Podfile || echo "platform :osx, '11.0'" | cat - macos/Podfile > /tmp/pf && mv /tmp/pf macos/Podfile
       - name: Ensure macOS network entitlement (иначе HTTP не работает в sandbox)
         run: |
           for f in macos/Runner/Release.entitlements macos/Runner/DebugProfile.entitlements; do
