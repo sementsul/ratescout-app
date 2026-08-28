@@ -1,0 +1,92 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FLUTTER_CHANNEL: stable
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable }
+      - name: Scaffold platforms
+        run: flutter create . --platforms=android --project-name ratescout_app --org ru.ratescout
+      - name: Ensure INTERNET permission
+        run: |
+          M=android/app/src/main/AndroidManifest.xml
+          grep -q 'android.permission.INTERNET' "$M" || \
+            sed -i 's#<application#<uses-permission android:name="android.permission.INTERNET"/>\n    <application#' "$M"
+      - run: flutter pub get
+      - run: flutter build apk --release
+      - name: Rename APK
+        run: cp build/app/outputs/flutter-apk/app-release.apk ratescout-android.apk
+      - uses: actions/upload-artifact@v4
+        with: { name: ratescout-android, path: ratescout-android.apk }
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable }
+      - run: flutter config --enable-windows-desktop
+      - run: flutter create . --platforms=windows --project-name ratescout_app --org ru.ratescout
+      - run: flutter pub get
+      - run: flutter build windows --release
+      - name: Package
+        shell: pwsh
+        run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath ratescout-windows.zip -Force
+      - uses: actions/upload-artifact@v4
+        with: { name: ratescout-windows, path: ratescout-windows.zip }
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable }
+      - run: flutter config --enable-macos-desktop
+      - run: flutter create . --platforms=macos --project-name ratescout_app --org ru.ratescout
+      - name: Ensure macOS network entitlement (иначе HTTP не работает в sandbox)
+        run: |
+          for f in macos/Runner/Release.entitlements macos/Runner/DebugProfile.entitlements; do
+            /usr/libexec/PlistBuddy -c "Add :com.apple.security.network.client bool true" "$f" 2>/dev/null || \
+            /usr/libexec/PlistBuddy -c "Set :com.apple.security.network.client true" "$f"
+          done
+      - run: flutter pub get
+      - run: flutter build macos --release
+      - name: Package
+        run: |
+          cd build/macos/Build/Products/Release
+          zip -r -y "$GITHUB_WORKSPACE/ratescout-macos.zip" *.app
+      - uses: actions/upload-artifact@v4
+        with: { name: ratescout-macos, path: ratescout-macos.zip }
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [ android, windows, macos ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { path: dist }
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**/*
+          body: |
+            RateScout — неофициальное приложение (Android / Windows / macOS).
+            • Android: ratescout-android.apk (разрешите установку из неизвестных источников).
+            • Windows: ratescout-windows.zip (распаковать, запустить ratescout_app.exe).
+            • macOS: ratescout-macos.zip (не подписано — ПКМ → «Открыть»).
