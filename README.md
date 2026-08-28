@@ -1,13 +1,12 @@
 # RateScout — приложение (Android · Windows · macOS)
 
-Неофициальное кросс-платформенное приложение для [RateScout](https://ratescout.ru): курсы обмена
-криптовалют и денег (данные BestChange), список валют, конвертер. Один код на Flutter → 3 платформы.
+Неофициальное кросс-платформенное приложение для [RateScout](https://ratescout.ru): профессиональный монитор курсов (страница /monitor/ сайта) в приложении. Один код на Flutter → 3 платформы.
 
 Сайт-лендинг со ссылками на скачивание: **https://app.ratescout.ru**
 Скачать: [Releases](https://github.com/sementsul/ratescout-app/releases).
 
 ## Как устроено
-- `lib/` — приложение на Flutter (Dart): `data.dart` тянет `currencies.json` + `history.json` из репо RateScout, `main.dart` — UI.
+- `lib/main.dart` — Flutter-обёртка: `InAppWebView` открывает https://ratescout.ru/monitor/ (тот же сервис и дизайн, что на сайте).
 - Платформенные папки (`android/ios/windows/macos`) НЕ хранятся в репо — их генерирует CI (`flutter create`).
 - `.github/workflows/build.yml` — сборка APK / Windows-zip / macOS-zip на соответствующих раннерах; релиз по тегу `v*`.
 - `.github/workflows/pages.yml` + `site/` — лендинг на GitHub Pages (домен app.ratescout.ru).
