@@ -44,6 +44,14 @@ jobs:
         with: { channel: stable }   # latest — видит Visual Studio 2022 на раннере
       - run: flutter config --enable-windows-desktop
       - run: flutter create . --platforms=windows --project-name ratescout_app --org ru.ratescout
+      - name: Разрешить experimental/coroutine (новый MSVC + flutter_inappwebview_windows)
+        shell: pwsh
+        run: |
+          $f = 'windows/CMakeLists.txt'
+          $c = Get-Content $f -Raw
+          $c = $c -replace '(project\([^\)]*\)\s*\r?\n)', "`$1add_compile_definitions(_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS)`r`n"
+          Set-Content -NoNewline $f $c
+          Select-String -Path $f -Pattern 'SILENCE_EXPERIMENTAL'
       - run: flutter pub get
       - run: flutter build windows --release
       - name: Package
