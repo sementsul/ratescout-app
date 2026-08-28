@@ -49,9 +49,12 @@ jobs:
         run: |
           $f = 'windows/CMakeLists.txt'
           $c = Get-Content $f -Raw
-          $c = $c -replace '(project\([^\)]*\)\s*\r?\n)', "`$1add_compile_definitions(_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS)`r`n"
-          Set-Content -NoNewline $f $c
-          Select-String -Path $f -Pattern 'SILENCE_EXPERIMENTAL'
+          if ($c -notmatch 'SILENCE_EXPERIMENTAL') {
+            $c = $c -replace '(?m)^(project\(.*\))\s*$', "`$1`nadd_compile_definitions(_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS)"
+            [System.IO.File]::WriteAllText((Resolve-Path $f), $c)
+          }
+          Write-Host "--- top of windows/CMakeLists.txt ---"
+          Get-Content $f -TotalCount 6
       - run: flutter pub get
       - run: flutter build windows --release
       - name: Package
