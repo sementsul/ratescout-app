@@ -27,8 +27,9 @@
 **Ожидаемо:** раннеры `flutter create . --platforms=<os>`, патч Android INTERNET + macOS `network.client`,
 `flutter build` → apk / windows-zip / macos-zip; тег `v*` → релиз. flutter_inappwebview: Android (WebView),
 Windows (WebView2), macOS (WKWebView).
-**РАДИУС:** `.github/workflows/build.yml`. **Статус:** 🟡 предыдущая (не-webview) сборка была зелёной; после
-перехода на webview требуется повторный прогон CI (десктопный webview может потребовать доводки).
+**РАДИУС:** `.github/workflows/build.yml`. **Статус:** 🟡 в доводке под webview: Android — Flutter 3.24.5 (фикс
+proguard/AGP у flutter_inappwebview); Windows — latest stable (VS2022); macOS — Podfile deployment target 11.0.
+Грабли CI собраны в `docs/project-notes.md`. Гоняю до зелёного по всем 3 ОС.
 
 ## UC-5. Лендинг на app.ratescout.ru — 🟡
 **Предусловие:** DNS `app` → `sementsul.github.io` (владелец).
