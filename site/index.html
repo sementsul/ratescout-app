@@ -5,8 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Приложение RateScout — Android, Windows, macOS</title>
 <meta name="description" content="Приложение RateScout: профессиональный монитор курсов на телефоне и компьютере. Скачать для Android, Windows, macOS.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="https://ratescout.ru/assets/styles.css">
 <style>
+  .cli-cmd{background:#0a0f14;border:1px solid #245;border-radius:4px;color:#7cf;padding:8px 10px;
+    overflow-x:auto;white-space:pre;font:13px/1.5 "Lucida Console",monospace;margin:6px 0;user-select:all}
   /* мелкие дополнения в стиле сайта (палитра DOS уже из styles.css) */
   .apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:16px 0}
   .app{padding:14px}
@@ -81,6 +86,24 @@
       <a href="https://github.com/sementsul/ratescout-app/releases">релизов</a>.
       Исходный код: <a href="https://github.com/sementsul/ratescout-app">GitHub</a>.
       Веб-версия: <a href="https://ratescout.ru/">ratescout.ru</a>.</p>
+
+    <h2>Консольный монитор — без установки</h2>
+    <p class="lead">Курсы прямо в терминале одной командой. Ничего ставить не нужно — работает встроенными
+      средствами системы. Команда лишь скачивает и печатает готовый текст (никакого выполнения кода —
+      поэтому антивирусы не ругаются), фид обновляется ежечасно. Выход — Ctrl+C.</p>
+    <div class="apps">
+      <div class="app dosborder">
+        <h3>Windows</h3><p>Вставьте в PowerShell:</p>
+        <pre class="cli-cmd">while(1){cls;irm https://ratescout.ru/cli.txt;sleep 60}</pre>
+      </div>
+      <div class="app dosborder">
+        <h3>macOS / Linux</h3><p>Вставьте в Терминал:</p>
+        <pre class="cli-cmd">while :; do clear; curl -s https://ratescout.ru/cli.txt; sleep 60; done</pre>
+      </div>
+    </div>
+    <p class="muted">Разовый снимок (без автообновления): <code>irm https://ratescout.ru/cli.txt</code> —
+      Windows; <code>curl -s https://ratescout.ru/cli.txt</code> — macOS/Linux. Данные BestChange (цены в USDT),
+      обновление ежечасно. Не оферта, 18+.</p>
   </div>
 </div>
 <div id="footer" class="dosborder">© 2026 RateScout · данные BestChange · <a href="https://ratescout.ru/">ratescout.ru</a></div>
