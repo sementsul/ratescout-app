@@ -21,6 +21,14 @@
     padding:8px 16px;text-decoration:none}
   .dosbtn:hover{background:#55ffff}
   .muted{color:#a8a8a8;font-size:13px}
+  .faq details{border:1px solid #245;border-radius:4px;margin:8px 0;background:#0a0f14}
+  .faq summary{cursor:pointer;padding:10px 12px;color:#55ffff;font-weight:bold;list-style:none}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"+ ";color:#00aaaa}
+  .faq details[open] summary::before{content:"\2212 "}
+  .faq details[open] summary{border-bottom:1px solid #245}
+  .faq .a{padding:10px 12px;color:#a8a8a8}
+  .faq .a a{color:#55ffff}
 </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -42,6 +50,22 @@
   gtag('config', 'G-PPN27D6JXS');
 </script>
 <!-- /Google Analytics -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"На каких устройствах работает приложение RateScout?","acceptedAnswer":{"@type":"Answer","text":"Android (APK), Windows (портативный zip) и macOS (.app). Это один код на всех платформах. Есть и веб-версия на ratescout.ru, и консольный монитор для терминала (Windows/macOS/Linux) без установки."}},
+    {"@type":"Question","name":"Приложение платное? Нужна регистрация?","acceptedAnswer":{"@type":"Answer","text":"Нет. Приложение и консольный монитор полностью бесплатны, без регистрации, аккаунта и подписок. Это инструмент для просмотра курсов."}},
+    {"@type":"Question","name":"Откуда берутся курсы?","acceptedAnswer":{"@type":"Answer","text":"Данные обменников агрегатора BestChange, как на сайте ratescout.ru. Цены приведены к USDT и обновляются ежечасно. Показываются все категории: криптовалюты, банковские карты, онлайн-банкинг, денежные переводы, наличные."}},
+    {"@type":"Question","name":"Безопасно ли устанавливать APK на Android и приложение на macOS?","acceptedAnswer":{"@type":"Answer","text":"Да. Файлы собираются публично в GitHub Actions из открытого исходного кода. На Android нужно разрешить установку из неизвестных источников (приложение не в Google Play). На macOS приложение не подписано платным сертификатом — при первом запуске откройте его через правую кнопку мыши → «Открыть»."}},
+    {"@type":"Question","name":"Что такое консольный монитор и почему он безопасен?","acceptedAnswer":{"@type":"Answer","text":"Это курсы прямо в терминале с переключением клавишами (тепловая карта, watchlist, лидеры движения; период 24ч/7д/30д). Скрипт запускается встроенными средствами (PowerShell или curl) — ставить ничего не нужно. Он только СКАЧИВАЕТ готовые текстовые страницы с ratescout.ru и печатает их: не парсит данные и не исполняет удалённый код. Исходник открытый, ~20 строк, его видно по ссылке."}},
+    {"@type":"Question","name":"Почему антивирус может ругаться на скачанный файл?","acceptedAnswer":{"@type":"Answer","text":"Иногда антивирусы помечают новые неподписанные exe/apk без «репутации» (ложное срабатывание). Сборки полностью открыты и воспроизводимы в GitHub Actions, исходный код доступен на GitHub. Если сомневаетесь — используйте веб-версию ratescout.ru или консольный монитор, который вообще ничего не устанавливает."}},
+    {"@type":"Question","name":"Чем приложение отличается от сайта?","acceptedAnswer":{"@type":"Answer","text":"Приложение показывает тот же монитор /monitor/, что и сайт, но как отдельная программа на телефоне/компьютере — удобнее держать под рукой. Данные и функции те же."}},
+    {"@type":"Question","name":"Это инвестиционная рекомендация?","acceptedAnswer":{"@type":"Answer","text":"Нет. RateScout — информационный монитор курсов, не оферта и не инвестиционная рекомендация. Решения об обмене вы принимаете самостоятельно. 18+."}}
+  ]
+}
+</script>
 </head>
 <body>
 <div id="wrapper"><div id="header">
@@ -108,6 +132,56 @@
       24ч/7д/30д · <b>r</b> обновить · <b>q</b> выход. Только для чтения (разовый снимок без запуска скрипта):
       <code>irm https://ratescout.ru/cli.txt</code> — Windows; <code>curl -s https://ratescout.ru/cli.txt</code> —
       macOS/Linux. Данные BestChange (цены в USDT), ежечасно. Не оферта, 18+.</p>
+
+    <h2>Частые вопросы</h2>
+    <div class="faq">
+      <details>
+        <summary>На каких устройствах работает приложение RateScout?</summary>
+        <div class="a">Android (APK), Windows (портативный zip) и macOS (.app) — один код на всех платформах.
+          Есть веб-версия на <a href="https://ratescout.ru/">ratescout.ru</a> и консольный монитор для терминала
+          (Windows/macOS/Linux) вообще без установки.</div>
+      </details>
+      <details>
+        <summary>Приложение платное? Нужна регистрация?</summary>
+        <div class="a">Нет. Приложение и консольный монитор бесплатны, без регистрации, аккаунтов и подписок.</div>
+      </details>
+      <details>
+        <summary>Откуда берутся курсы?</summary>
+        <div class="a">Данные обменников агрегатора BestChange, как на сайте. Цены приведены к USDT и обновляются
+          ежечасно. Показываются все категории: криптовалюты, банковские карты, онлайн-банкинг, денежные переводы,
+          наличные.</div>
+      </details>
+      <details>
+        <summary>Безопасно ли устанавливать APK на Android и приложение на macOS?</summary>
+        <div class="a">Да. Файлы собираются публично в GitHub Actions из открытого исходного кода. На Android нужно
+          разрешить установку из неизвестных источников (приложения нет в Google Play). На macOS приложение не
+          подписано платным сертификатом — при первом запуске откройте его через правую кнопку мыши → «Открыть».</div>
+      </details>
+      <details>
+        <summary>Что такое консольный монитор и почему он безопасен?</summary>
+        <div class="a">Курсы прямо в терминале с переключением клавишами (тепловая карта, watchlist, лидеры движения;
+          период 24ч/7д/30д). Запускается встроенными средствами (PowerShell или curl) — ставить ничего не нужно.
+          Скрипт только <b>скачивает</b> готовые текстовые страницы с ratescout.ru и печатает их: не парсит данные и
+          не исполняет удалённый код. Исходник открытый (~20 строк):
+          <a href="https://ratescout.ru/cli/rs.ps1">rs.ps1</a> · <a href="https://ratescout.ru/cli/rs.sh">rs.sh</a>.</div>
+      </details>
+      <details>
+        <summary>Почему антивирус может ругаться на скачанный файл?</summary>
+        <div class="a">Иногда антивирусы помечают новые неподписанные exe/apk без «репутации» — это ложное срабатывание.
+          Сборки открыты и воспроизводимы в <a href="https://github.com/sementsul/ratescout-app">GitHub Actions</a>.
+          Если сомневаетесь — используйте веб-версию или консольный монитор, который ничего не устанавливает.</div>
+      </details>
+      <details>
+        <summary>Чем приложение отличается от сайта?</summary>
+        <div class="a">Приложение показывает тот же монитор, что и сайт, но как отдельная программа на
+          телефоне/компьютере — удобнее держать под рукой. Данные и функции те же.</div>
+      </details>
+      <details>
+        <summary>Это инвестиционная рекомендация?</summary>
+        <div class="a">Нет. RateScout — информационный монитор курсов, не оферта и не инвестиционная рекомендация.
+          Решения об обмене вы принимаете самостоятельно. 18+.</div>
+      </details>
+    </div>
   </div>
 </div>
 <div id="footer" class="dosborder">© 2026 RateScout · данные BestChange · <a href="https://ratescout.ru/">ratescout.ru</a></div>
