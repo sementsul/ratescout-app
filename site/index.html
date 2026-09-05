@@ -87,23 +87,27 @@
       Исходный код: <a href="https://github.com/sementsul/ratescout-app">GitHub</a>.
       Веб-версия: <a href="https://ratescout.ru/">ratescout.ru</a>.</p>
 
-    <h2>Консольный монитор — без установки</h2>
-    <p class="lead">Курсы прямо в терминале одной командой. Ничего ставить не нужно — работает встроенными
-      средствами системы. Команда лишь скачивает и печатает готовый текст (никакого выполнения кода —
-      поэтому антивирусы не ругаются), фид обновляется ежечасно. Выход — Ctrl+C.</p>
+    <h2>Консольный монитор — без установки, с клавишами</h2>
+    <p class="lead">Курсы прямо в терминале с переключением клавишами: тепловая карта крипты, watchlist, лидеры
+      движения; период 24ч/7д/30д. Ничего ставить не нужно — работает встроенными PowerShell / curl. Скрипт лишь
+      скачивает готовые текстовые страницы и печатает их (не парсит и не исполняет удалённый код) — открытый
+      исходник ~20 строк, можно посмотреть по ссылке.</p>
     <div class="apps">
       <div class="app dosborder">
-        <h3>Windows</h3><p>Вставьте в PowerShell:</p>
-        <pre class="cli-cmd">while(1){cls;irm https://ratescout.ru/cli.txt;sleep 60}</pre>
+        <h3>Windows (PowerShell)</h3>
+        <pre class="cli-cmd">irm https://ratescout.ru/cli/rs.ps1 | iex</pre>
+        <p class="muted">Исходник: <a href="https://ratescout.ru/cli/rs.ps1">rs.ps1</a></p>
       </div>
       <div class="app dosborder">
-        <h3>macOS / Linux</h3><p>Вставьте в Терминал:</p>
-        <pre class="cli-cmd">while :; do clear; curl -s https://ratescout.ru/cli.txt; sleep 60; done</pre>
+        <h3>macOS / Linux (Terminal)</h3>
+        <pre class="cli-cmd">bash &lt;(curl -s https://ratescout.ru/cli/rs.sh)</pre>
+        <p class="muted">Исходник: <a href="https://ratescout.ru/cli/rs.sh">rs.sh</a></p>
       </div>
     </div>
-    <p class="muted">Разовый снимок (без автообновления): <code>irm https://ratescout.ru/cli.txt</code> —
-      Windows; <code>curl -s https://ratescout.ru/cli.txt</code> — macOS/Linux. Данные BestChange (цены в USDT),
-      обновление ежечасно. Не оферта, 18+.</p>
+    <p class="muted">Клавиши: <b>h</b> тепловая карта · <b>w</b> watchlist · <b>m</b> лидеры · <b>1/2/3</b> период
+      24ч/7д/30д · <b>r</b> обновить · <b>q</b> выход. Только для чтения (разовый снимок без запуска скрипта):
+      <code>irm https://ratescout.ru/cli.txt</code> — Windows; <code>curl -s https://ratescout.ru/cli.txt</code> —
+      macOS/Linux. Данные BestChange (цены в USDT), ежечасно. Не оферта, 18+.</p>
   </div>
 </div>
 <div id="footer" class="dosborder">© 2026 RateScout · данные BestChange · <a href="https://ratescout.ru/">ratescout.ru</a></div>
